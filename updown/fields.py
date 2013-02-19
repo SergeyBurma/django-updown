@@ -117,24 +117,25 @@ class RatingManager(object):
         if not created:
             if self.field.can_change_vote:
                 has_changed = True
-                if (rating.score == SCORE_TYPES['LIKE']):
-                    self.likes -= 1
-                else:
-                    self.dislikes -= 1
-                if (score == SCORE_TYPES['LIKE']):
-                    self.likes += 1
-                else:
-                    self.dislikes += 1
+                if rating.score > 0:
+                    self.likes -= score
+                elif rating.score < 0:
+                    self.dislikes -= score
+
+                if score > 0:
+                    self.likes += score
+                elif score < 0:
+                    self.dislikes += score
                 rating.score = score
                 rating.save()
             else:
                 raise CannotChangeVote()
         else:
             has_changed = True
-            if (rating.score == SCORE_TYPES['LIKE']):
-                self.likes += 1
-            else:
-                self.dislikes += 1
+            if rating.score > 0:
+                self.likes += score
+            elif rating.score < 0:
+                self.dislikes += score
 
         if has_changed:
             if commit:
