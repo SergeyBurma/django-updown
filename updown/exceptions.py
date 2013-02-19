@@ -10,11 +10,14 @@ Some custom exceptions
 :license: BSD, see LICENSE for more details.
 """
 
+
 class InvalidRating(ValueError):
     pass
 
+
 class AuthRequired(TypeError): 
     pass
+
 
 class CannotChangeVote(Exception): 
     pass

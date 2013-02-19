@@ -86,9 +86,6 @@ class RatingManager(object):
             raise InvalidRating("%s is not a valid score for %s" % (
                 score, self.field.name))
 
-        if score not in SCORE_TYPES.values():
-            raise InvalidRating("%s is not a valid score" % (score,))
-
         is_anonymous = (user is None or not user.is_authenticated())
         if is_anonymous and not self.field.allow_anonymous:
             raise AuthRequired("User must be a user, not '%r'" % (user,))

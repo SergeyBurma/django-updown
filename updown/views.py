@@ -14,10 +14,11 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, Http404
 
 from updown.exceptions import *
+from updown.models import SCORE_TYPES
 
 
 class AddRatingView(object):
-    def __call__(self, request, content_type_id, object_id, field_name, score):
+    def __call__(self, request, content_type_id, object_id, field_name, score, special=False):
         """__call__(request, content_type_id, object_id, field_name, score)
 
         Adds a vote to the specified model field."""
@@ -40,13 +41,13 @@ class AddRatingView(object):
             'score': score,
         })
 
-
         try:
             had_voted = bool(field.get_rating_for_user(request.user,
                                                        request.META['REMOTE_ADDR']))
 
             context['had_voted'] = had_voted
-            field.add(score, request.user, request.META['REMOTE_ADDR'])
+            if score in SCORE_TYPES.values() or special:
+                field.add(score, request.user, request.META['REMOTE_ADDR'])
         except AuthRequired:
             return self.authentication_required_response(request, context)
         except InvalidRating:

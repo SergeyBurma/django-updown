@@ -1,4 +1,10 @@
 =============
+Fork note!!!
+=============
+This fork was made to add ability of adding any score, not just -1/1. The reason is the need
+to stronger raise or lower rating of any content for moderators .
+
+=============
 django-updown
 =============
 
