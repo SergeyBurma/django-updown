@@ -73,6 +73,10 @@ class RatingManager(object):
             pass
         return
 
+    def check_user_voted(self, user):
+        result = self.get_rating_for_user(user)
+        return bool(result)
+
     def get_content_type(self):
         if self.content_type is None:
             self.content_type = ContentType.objects.get_for_model(
@@ -158,7 +162,7 @@ class RatingManager(object):
     dislikes = property(_get_dislikes, _set_dislikes)
 
     def get_difference(self):
-        return self.likes - self.dislikes
+        return self.likes + self.dislikes
 
     def get_quotient(self):
         return float(self.likes) / max(self.dislikes, 1)

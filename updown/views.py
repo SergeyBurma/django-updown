@@ -65,11 +65,11 @@ class AddRatingView(object):
         raise NotImplementedError
 
     def rating_changed_response(self, request, context):
-        response = HttpResponse('Vote changed.')
+        response = HttpResponse(context['score'])
         return response
 
     def rating_added_response(self, request, context):
-        response = HttpResponse('Vote recorded.')
+        response = HttpResponse(context['score'])
         return response
 
     def authentication_required_response(self, request, context):
@@ -78,8 +78,8 @@ class AddRatingView(object):
         return response
 
     def cannot_change_vote_response(self, request, context):
-        response = HttpResponse('You have already voted.')
-        response.status_code = 403
+        response = HttpResponse(context['score'])
+        # response.status_code = 403
         return response
 
     def invalid_field_response(self, request, context):
@@ -108,5 +108,5 @@ class AddRatingFromModel(AddRatingView):
             raise Http404('Invalid `model` or `app_label`.')
 
         return super(AddRatingFromModel, self).__call__(request, content_type.id,
-                                                        object_id, field_name, score)
+                                                        object_id, field_name, score, **kwargs)
 
